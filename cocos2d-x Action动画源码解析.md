@@ -21,6 +21,17 @@ bool Director::init(void)
   _scheduler->scheduleUpdate(_actionManager, Scheduler::PRIORITY_SYSTEM, false);
   ...
 }
+
+//_scheduler->scheduleUpdate(...)
+template <class T>
+    void scheduleUpdate(T *target, int priority, bool paused)
+    {
+		//每一帧调用ActionManager的update方法,具体是如何每帧调用,参见另一篇《cocos2d-x Scheduler调度源码分析》
+        this->schedulePerFrame([target](float dt){
+            target->update(dt);
+        }, target, priority, paused);
+    }
+
 ```
 Node
 ```c++
